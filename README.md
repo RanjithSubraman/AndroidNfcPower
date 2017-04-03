@@ -1,31 +1,32 @@
  <h1>Programmatically Turn ON/OFF NFC on Android Device</h1>
-
-I hope most of you know about NFC (Near Field Communication). It's a innovative version of RFID to read and write a small chunk of information by using electromagnetic field.
+I hope most of you know about NFC (Near Field Communication). It's an innovative version of RFID to read and write a small chunk of information by using the electromagnetic field.
 
 More information: http://developer.android.com/guide/topics/connectivity/nfc/index.html
 
-In this post, I am going to explain how to turn ON/OFF NFC by using android program.
+In this post, I am going to explain how to turn ON/OFF NFC by using the android APIs.
 
-You may think, It's an easiest task but it's not easy. Because Google has some barriers on this power on/off operation. Obviously we know it is a default option on Android system setting menu. When we go programmatically to perform this operation we need to consider below steps.
+Google has some restrictions on Nfc power on/off for developers. Obviously, we know it is a user feature to turn on/off by android system setting menu. 
 
-The device should be a rooted device or system application acceptable devices.
-We need to access set power ON/OFF API by Java reflection.
-We need to specify the NFC permission as well as writing secure setting permission (This is acceptable only for system application).
+Follow the below steps:
+The device should be a rooted device or system application acceptable device.
+The developer needs to be accessed to handle power ON/OFF API by Java reflection.
+The application should have NFC permission as well as writing secure setting permission.
 We need to specify all below permissions in AndroidManifest.xml
 
-uses-permission android:name="android.permission.NFC" 
-android:name="android.permission.WRITE_SECURE_SETTINGS"
-android:name="android.hardware.nfc" android:required="false"
+<uses-permission android:name="android.permission.NFC" />
+<uses-permission 
+android:name="android.permission.WRITE_SECURE_SETTINGS" />
+<uses-feature android:name="android.hardware.nfc" android:required="false" />
 
-Java method for turn on the device
+Implementation for turn on/off a device
 
 public static boolean powerNfc(boolean isOn, Context context) {
     boolean success = false;
     NfcAdapter nfcAdapter = NfcAdapter.getDefaultAdapter(context);
+
     if (nfcAdapter != null) {
         Class<?> NfcManagerClass;
         Method setNfcEnabled;
-
         try {
             NfcManagerClass = Class.forName(nfcAdapter.getClass().getName());
             setNfcEnabled = NfcManagerClass.getDeclaredMethod(isOn
