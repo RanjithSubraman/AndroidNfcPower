@@ -66,4 +66,4 @@ public static boolean checkNfcPowerStatus(Context context) {
 
     return enabled;
 }
-</pre>
+</pre> 
